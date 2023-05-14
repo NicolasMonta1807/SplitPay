@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
+            prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.splitpay.splitpay.ViewGroupEvents">
+    <children>
+        <SplitPane dividerPositions="0.8310593900481541" layoutX="185.0" layoutY="121.0" orientation="VERTICAL"
+                   prefHeight="500.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <SplitPane dividerPositions="0.5882647943831494" layoutX="275.0" layoutY="115.0"
+                                   prefHeight="411.2" prefWidth="799.2" AnchorPane.bottomAnchor="0.0"
+                                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <items>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="410.0" prefWidth="442.0">
+                                    <children>
+                                        <TableView fx:id="membersTable" layoutX="125.0" layoutY="74.0"
+                                                   prefHeight="351.0" prefWidth="466.0" AnchorPane.bottomAnchor="59.0"
+                                                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                   AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                                <TableColumn fx:id="memberName" prefWidth="229.5999999642372"
+                                                             text="MIEMBROS"/>
+                                                <TableColumn fx:id="memberDebt" prefWidth="234.40005493164062"
+                                                             text="DEUDAS COLECTIVAS"/>
+                                            </columns>
+                                        </TableView>
+                                        <Button layoutX="81.0" layoutY="370.0" mnemonicParsing="false"
+                                                text="TRANSACION"/>
+                                        <Button layoutX="320.0" layoutY="370.0" mnemonicParsing="false"
+                                                text="ADMINISTRAR"/>
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                    <children>
+                                        <Label layoutX="25.0" layoutY="73.0" text="REALIZAR TRANSACION"/>
+                                        <Button layoutX="121.0" layoutY="115.0" mnemonicParsing="false"
+                                                text="CONFIRMAR"/>
+                                        <SplitMenuButton layoutX="170.0" layoutY="69.0" mnemonicParsing="false"
+                                                         text="ELEGIR MIEMBRO">
+                                            <items>
+                                                <MenuItem mnemonicParsing="false" text="Action 1"/>
+                                                <MenuItem mnemonicParsing="false" text="Action 2"/>
+                                            </items>
+                                        </SplitMenuButton>
+                                        <Label layoutX="77.0" layoutY="187.0" text="HISTORIAL DE TRANSACCIONES"/>
+                                        <Button layoutX="120.0" layoutY="273.0" mnemonicParsing="false"
+                                                text="CONFIRMAR"/>
+                                        <SplitMenuButton layoutX="124.0" layoutY="224.0" mnemonicParsing="false"
+                                                         text="ELEGIR">
+                                            <items>
+                                                <MenuItem mnemonicParsing="false" text="Action 1"/>
+                                                <MenuItem mnemonicParsing="false" text="Action 2"/>
+                                            </items>
+                                        </SplitMenuButton>
+                                        <Label layoutX="77.0" layoutY="321.0" text="AÑADIR O ELIMINAR MIEMBRO"/>
+                                        <TextField layoutX="35.0" layoutY="343.0" text="DATOS"/>
+                                        <Button layoutX="229.0" layoutY="343.0" mnemonicParsing="false"
+                                                text="CONFIRMAR"/>
+                                    </children>
+                                </AnchorPane>
+                            </items>
+                        </SplitPane>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <Button layoutX="314.0" layoutY="28.0" mnemonicParsing="false" prefWidth="200.0"
+                                text="AÑADIR UNA FACTURA"/>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>
