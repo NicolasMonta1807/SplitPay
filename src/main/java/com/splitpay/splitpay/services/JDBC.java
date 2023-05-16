@@ -15,6 +15,8 @@ public class JDBC {
                 add(new Member(new User("Nikoresu", "correo", "123"), new Group("Bases"), 25));
                 add(new Member(new User("Gabriel", "correo", "456"), new Group("Bases"), -50));
                 add(new Member(new User("JuanJo", "correo", "789"), new Group("Bases"), 25));
+                add(new Member(new User("Nikoresu", "correo", "123"), new Group("Londres"), 0));
+                add(new Member(new User("Gabriel", "correo", "456"), new Group("Londres"), 0));
             }
         };
     }
@@ -25,6 +27,15 @@ public class JDBC {
                 add(new User("Nikoresu", "correo", "123"));
                 add(new User("Gabriel", "correo", "456"));
                 add(new User("Juanjo", "correo", "789"));
+            }
+        };
+    }
+
+    public static List<Group> getAllGroups() {
+        return new ArrayList<>() {
+            {
+                add(new Group("Bases"));
+                add(new Group("Londres"));
             }
         };
     }

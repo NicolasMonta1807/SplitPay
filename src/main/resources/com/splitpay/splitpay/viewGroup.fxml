@@ -3,33 +3,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
-            prefWidth="572.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.splitpay.splitpay.ViewGroupEvents">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="572.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitpay.splitpay.ViewGroupEvents">
     <children>
-        <SplitPane dividerPositions="0.8330658105939005" layoutX="290.0" layoutY="100.0" orientation="VERTICAL"
-                   prefHeight="500.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <SplitPane dividerPositions="0.8330658105939005" layoutX="290.0" layoutY="100.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-                        <SplitPane layoutX="270.0" layoutY="26.0" prefHeight="412.0" prefWidth="799.2"
-                                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane layoutX="270.0" layoutY="26.0" prefHeight="412.0" prefWidth="799.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <items>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                     <children>
-                                        <TableView fx:id="membersTable" prefHeight="359.0" prefWidth="432.0"
-                                                   AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="0.0"
-                                                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <TableView fx:id="membersTable" prefHeight="359.0" prefWidth="432.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                                <TableColumn fx:id="memberName" prefWidth="291.0" text="MIEMBROS"/>
-                                                <TableColumn fx:id="memberDebt" prefWidth="276.0"
-                                                             text="DEUDAS COLECTIVAS"/>
+                                                <TableColumn fx:id="memberName" prefWidth="291.0" text="MIEMBROS" />
+                                                <TableColumn fx:id="memberDebt" prefWidth="276.0" text="DEUDAS COLECTIVAS" />
                                             </columns>
                                         </TableView>
-                                        <Button fx:id="newTransactionButton" layoutX="240.0" layoutY="371.0"
-                                                mnemonicParsing="false" text="TRANSACION"/>
+                                        <Button fx:id="newTransactionButton" layoutX="240.0" layoutY="371.0" mnemonicParsing="false" text="TRANSACCION" />
                                     </children>
                                 </AnchorPane>
                             </items>
@@ -38,13 +28,9 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-                        <Button fx:id="backButton" layoutX="22.0" layoutY="28.0" mnemonicParsing="false"
-                                text="VOLVER A MENU PRINCIPAL"/>
-                        <Button fx:id="newBillButton" layoutX="389.0" layoutY="27.0" mnemonicParsing="false"
-                                text="AÑADIR UNA FACTURA"/>
-                        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="207.0"
-                               layoutY="31.0" nodeOrientation="LEFT_TO_RIGHT" textAlignment="CENTER"
-                               textOverrun="CENTER_WORD_ELLIPSIS"/>
+                        <Button fx:id="backButton" layoutX="22.0" layoutY="28.0" mnemonicParsing="false" onAction="#goToMainPage" text="VOLVER A MENU PRINCIPAL" />
+                        <Button fx:id="newBillButton" layoutX="389.0" layoutY="27.0" mnemonicParsing="false" onAction="#goToCreateBill" text="AÑADIR UNA FACTURA" />
+                        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="207.0" layoutY="31.0" nodeOrientation="LEFT_TO_RIGHT" textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS" />
                     </children>
                 </AnchorPane>
             </items>

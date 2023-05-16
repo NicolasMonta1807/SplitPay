@@ -1,19 +1,15 @@
 package com.splitpay.splitpay.controllers;
 
 import com.splitpay.splitpay.entities.Group;
-
 import java.util.ArrayList;
 import java.util.List;
+import com.splitpay.splitpay.services.JDBC;
 
 public class GroupsController {
     private static Group selectedGroup;
 
     // TODO: Load groups table from database
-    private static List<Group> currentGroups = new ArrayList<>(){
-        {
-            add(new Group("Londres"));
-        }
-    };
+    private static List<Group> currentGroups = JDBC.getAllGroups();
 
     public static Group getSelectedGroup() {
         return selectedGroup;
