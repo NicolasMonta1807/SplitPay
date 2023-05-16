@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
+            prefWidth="736.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <SplitPane dividerPositions="0.8370786516853933" layoutX="169.0" layoutY="101.0" orientation="VERTICAL"
+                   prefHeight="500.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <TableView layoutX="242.0" layoutY="77.0" prefHeight="414.4" prefWidth="735.2"
+                                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <columns>
+                                <TableColumn prefWidth="172.79995423555374" text="FECHA FACTURAS"/>
+                                <TableColumn prefWidth="137.6000518798828" text="GRUPO 1"/>
+                                <TableColumn prefWidth="114.39996337890625" text="GRUPO 2"/>
+                                <TableColumn prefWidth="144.0" text="GRUPO N"/>
+                                <TableColumn prefWidth="167.99993896484375" text="TOTALES"/>
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <Button layoutX="514.0" layoutY="26.0" mnemonicParsing="false" text="HECHO"/>
+                        <Button layoutX="68.0" layoutY="26.0" mnemonicParsing="false"
+                                text="DEVOLVER AL MENU PRINCIPAL"/>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>

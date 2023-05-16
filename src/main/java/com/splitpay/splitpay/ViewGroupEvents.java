@@ -8,6 +8,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,6 +25,14 @@ public class ViewGroupEvents implements Initializable {
     private TableColumn<Member, String> memberName;
     @FXML
     private TableColumn<Member, Double> memberDebt;
+    @FXML
+    private Button newTransactionButton;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button newBillButton;
+    @FXML
+    private Label errorLabel;
 
     private Group selectedGroup = GroupsController.getSelectedGroup();
     private ObservableList<Member> groupMembers = FXCollections.observableArrayList(MembersController.getMembersOfGroup(selectedGroup.getName()));

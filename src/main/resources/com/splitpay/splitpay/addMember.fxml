@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0"
+            prefWidth="430.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.splitpay.splitpay.CreateGroupEvents">
+    <children>
+        <Label layoutX="165.0" layoutY="49.0" text="AÑADIR MIEMBRO"/>
+        <Label layoutX="78.0" layoutY="99.0" text="CORREO: "/>
+        <TextField layoutX="148.0" layoutY="95.0" prefHeight="25.0" prefWidth="189.0"/>
+        <Button layoutX="257.0" layoutY="159.0" mnemonicParsing="false" text="AGREGAR"/>
+        <Button fx:id="cancelButton" layoutX="93.0" layoutY="159.0" mnemonicParsing="false" onAction="#goToMainPage"
+                text="CANCELAR"/>
+    </children>
+</AnchorPane>
