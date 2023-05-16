@@ -2,6 +2,7 @@ package com.splitpay.splitpay;
 
 import com.splitpay.splitpay.controllers.GroupsController;
 import com.splitpay.splitpay.controllers.MembersController;
+import com.splitpay.splitpay.controllers.UsersController;
 import com.splitpay.splitpay.entities.Group;
 import com.splitpay.splitpay.entities.Member;
 import com.splitpay.splitpay.entities.User;
@@ -40,7 +41,7 @@ public class MainPageEvents implements Initializable {
     private Label errorLabel;
 
     // TODO: Get loggedUser from LoginController and load its Member info
-    private User loggedUser = new User("Nikoresu", "n_montanez@javeriana.edu.co", 0);
+    private User loggedUser = UsersController.getLoggedUser();
     private ObservableList<Member> userGroups = FXCollections.observableArrayList(MembersController.getGroupsOfUser(loggedUser.getUsername()));
 
     @Override

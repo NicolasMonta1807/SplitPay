@@ -1,20 +1,20 @@
 package com.splitpay.splitpay.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 public class User {
     private String username;
     private String email;
-    private int balance;
-    private List<Group> groups;
+    private String phone;
 
     public User() {
     }
 
-    public User(String username, String email, int balance) {
+    public User(String username, String email, String phone) {
         this.username = username;
         this.email = email;
-        this.balance = balance;
+        this.phone = phone;
     }
 
     public String getUsername() {
@@ -33,11 +33,23 @@ public class User {
         this.email = email;
     }
 
-    public int getBalance() {
-        return balance;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if(!(o instanceof User)) {
+            return false;
+        }
+        User other = (User) o;
+        return username.equals(other.username) && email.equals(other.email) && phone.equals(other.phone);
     }
 }

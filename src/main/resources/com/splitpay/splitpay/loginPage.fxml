@@ -3,24 +3,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="292.0" prefWidth="462.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="292.0" prefWidth="462.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.splitpay.splitpay.LoginEvents">
     <children>
         <SplitPane dividerPositions="0.8370786516853933" layoutX="334.0" layoutY="182.0" orientation="VERTICAL" prefHeight="292.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-                        <Label layoutX="164.0" layoutY="34.0" text="BIENVENIDO A SPLITPAY" />
+                        <Label fx:id="welcomeLabel" layoutX="164.0" layoutY="34.0" text="BIENVENIDO A SPLITPAY" />
                         <Label layoutX="79.0" layoutY="134.0" text="CORREO:" />
                         <Label layoutX="79.0" layoutY="171.0" text="TELEFONO:" />
-                        <Label layoutX="79.0" layoutY="101.0" text="NOMBRE DE USARIO:" />
-                        <TextField layoutX="234.0" layoutY="97.0" />
-                        <TextField layoutX="234.0" layoutY="130.0" />
-                        <TextField layoutX="234.0" layoutY="167.0" />
+                        <Label layoutX="79.0" layoutY="101.0" text="NOMBRE DE USUARIO:" />
+                        <TextField fx:id="userName" layoutX="234.0" layoutY="97.0" />
+                        <TextField fx:id="userEmail" layoutX="234.0" layoutY="130.0" />
+                        <TextField fx:id="userPhone" layoutX="234.0" layoutY="167.0" />
+                  <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="216.0" layoutY="202.0" textAlignment="CENTER" />
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-                        <Button layoutX="202.0" layoutY="10.0" mnemonicParsing="false" text="HECHO" />
+                        <Button fx:id="loginButton" layoutX="202.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleLogin" text="HECHO" />
                     </children>
                 </AnchorPane>
             </items>
