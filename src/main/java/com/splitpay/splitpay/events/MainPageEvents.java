@@ -6,6 +6,7 @@ import com.splitpay.splitpay.controllers.MembersController;
 import com.splitpay.splitpay.controllers.UsersController;
 import com.splitpay.splitpay.entities.Member;
 import com.splitpay.splitpay.entities.User;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,6 +37,8 @@ public class MainPageEvents implements Initializable {
 
     private User loggedUser = UsersController.getLoggedUser();
     private ObservableList<Member> userGroups = FXCollections.observableArrayList(MembersController.getGroupsOfUser(loggedUser.getUsername()));
+    @FXML
+    private Button exitButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -70,5 +73,10 @@ public class MainPageEvents implements Initializable {
             GroupsController.setSelectedGroup(selectedGroup.getGroupName());
             SceneController.goToCreateBill(event);
         }
+    }
+
+    @FXML
+    public void exitApplication(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }
