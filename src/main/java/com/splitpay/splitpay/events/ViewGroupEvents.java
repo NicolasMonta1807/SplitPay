@@ -3,8 +3,11 @@ package com.splitpay.splitpay.events;
 import com.splitpay.splitpay.SceneController;
 import com.splitpay.splitpay.controllers.GroupsController;
 import com.splitpay.splitpay.controllers.MembersController;
+import com.splitpay.splitpay.controllers.TransactionsController;
+import com.splitpay.splitpay.controllers.UsersController;
 import com.splitpay.splitpay.entities.Group;
 import com.splitpay.splitpay.entities.Member;
+import com.splitpay.splitpay.entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ViewGroupEvents implements Initializable {
@@ -56,5 +60,21 @@ public class ViewGroupEvents implements Initializable {
     @FXML
     public void goToCreateBill(ActionEvent event) throws IOException {
         SceneController.goToCreateBill(event);
+    }
+
+    @FXML
+    public void goToTransaction(ActionEvent event) throws IOException {
+        Member selectedUser = membersTable.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            errorLabel.setText("No ha seleccionado un usuario");
+            return;
+        }
+        if (selectedUser.getUserName().equals(UsersController.getLoggedUser().getUsername())) {
+            errorLabel.setText("No puede tranferir a sí mismo");
+            return;
+        }
+        TransactionsController.setFromUser(UsersController.getLoggedUser());
+        TransactionsController.setToUser(selectedUser.getUser());
+        SceneController.goToTransaction(event);
     }
 }

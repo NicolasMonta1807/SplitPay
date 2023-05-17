@@ -136,8 +136,8 @@ public class CreateBillEvents implements Initializable {
 
     private boolean sendConfirmation(String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Inicio de Sesión");
-        alert.setHeaderText("Usuario " + loggedUser.getUsername());
+        alert.setTitle("Factura");
+        alert.setHeaderText("Creación de factura");
         alert.setContentText(content);
         Optional<ButtonType> confirmation = alert.showAndWait();
         return confirmation.get() == ButtonType.OK;
@@ -146,7 +146,7 @@ public class CreateBillEvents implements Initializable {
     private void sendAlert(String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Factura");
-        alert.setHeaderText("Factura " + billName.get());
+        alert.setHeaderText("Factura " + billName.get() + " creada");
         alert.setContentText(content);
         alert.showAndWait();
     }

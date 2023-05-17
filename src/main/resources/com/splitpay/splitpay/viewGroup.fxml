@@ -19,7 +19,7 @@
                                                 <TableColumn fx:id="memberDebt" prefWidth="276.0" text="DEUDAS COLECTIVAS" />
                                             </columns>
                                         </TableView>
-                                        <Button fx:id="newTransactionButton" layoutX="240.0" layoutY="371.0" mnemonicParsing="false" text="TRANSACCION" />
+                                        <Button fx:id="newTransactionButton" layoutX="240.0" layoutY="371.0" mnemonicParsing="false" onAction="#goToTransaction" text="TRANSACCION" />
                                     </children>
                                 </AnchorPane>
                             </items>
@@ -28,9 +28,9 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-                        <Button fx:id="backButton" layoutX="22.0" layoutY="28.0" mnemonicParsing="false" onAction="#goToMainPage" text="VOLVER A MENU PRINCIPAL" />
-                        <Button fx:id="newBillButton" layoutX="389.0" layoutY="27.0" mnemonicParsing="false" onAction="#goToCreateBill" text="AÑADIR UNA FACTURA" />
-                        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="207.0" layoutY="31.0" nodeOrientation="LEFT_TO_RIGHT" textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS" />
+                        <Button fx:id="backButton" layoutX="46.0" layoutY="27.0" mnemonicParsing="false" onAction="#goToMainPage" text="VOLVER" />
+                        <Button fx:id="newBillButton" layoutX="378.0" layoutY="27.0" mnemonicParsing="false" onAction="#goToCreateBill" text="AÑADIR UNA FACTURA" />
+                        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="168.0" layoutY="31.0" nodeOrientation="LEFT_TO_RIGHT" textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS" />
                     </children>
                 </AnchorPane>
             </items>
