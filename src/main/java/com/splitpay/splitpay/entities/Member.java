@@ -11,6 +11,11 @@ public class Member {
         this.collectiveDebt = collectiveDebt;
     }
 
+    public Member(User user, Group group) {
+        this.user = user;
+        this.group = group;
+    }
+
     public User getUser() {
         return user;
     }
@@ -45,6 +50,6 @@ public class Member {
 
     @Override
     public String toString() {
-        return this.group.getName();
+        return this.user.getUsername();
     }
 }

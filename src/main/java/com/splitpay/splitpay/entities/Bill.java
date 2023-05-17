@@ -7,21 +7,12 @@ import java.util.List;
 
 public class Bill {
     private String name;
-    private double cost;
-    private Group group;
-    private User creator;
-    private List<User> involvedMembers;
+    private List<Debt> billDepts;
     private Date date;
 
-    public Bill() {
-    }
-
-    public Bill(String name, double cost, Group group, User creator, List<User> involvedMembers, Date date) {
+    public Bill(String name, List<Debt> billDepts, Date date) {
         this.name = name;
-        this.cost = cost;
-        this.group = group;
-        this.creator = creator;
-        this.involvedMembers = involvedMembers;
+        this.billDepts = billDepts;
         this.date = date;
     }
 
@@ -33,36 +24,12 @@ public class Bill {
         this.name = name;
     }
 
-    public double getCost() {
-        return cost;
+    public List<Debt> getBillDepts() {
+        return billDepts;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    public List<User> getInvolvedMembers() {
-        return involvedMembers;
-    }
-
-    public void setInvolvedMembers(List<User> involvedMembers) {
-        this.involvedMembers = involvedMembers;
+    public void setBillDepts(List<Debt> billDepts) {
+        this.billDepts = billDepts;
     }
 
     public Date getDate() {

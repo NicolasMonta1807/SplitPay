@@ -63,6 +63,12 @@ public class MainPageEvents implements Initializable {
 
     @FXML
     public void goToCreateBill(ActionEvent event) throws IOException {
-        SceneController.goToCreateBill(event);
+        Member selectedGroup = groupTable.getSelectionModel().getSelectedItem();
+        if (selectedGroup == null) {
+            errorLabel.setText("No ha seleccionado grupos");
+        } else {
+            GroupsController.setSelectedGroup(selectedGroup.getGroupName());
+            SceneController.goToCreateBill(event);
+        }
     }
 }

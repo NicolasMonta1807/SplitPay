@@ -1,5 +1,6 @@
 package com.splitpay.splitpay.services;
 
+import com.splitpay.splitpay.entities.Bill;
 import com.splitpay.splitpay.entities.Group;
 import com.splitpay.splitpay.entities.Member;
 import com.splitpay.splitpay.entities.User;
@@ -42,5 +43,9 @@ public class JDBC {
 
     public static void createUser(User userToCreate) {
         System.out.println("User should be created: " + userToCreate.getUsername());
+    }
+
+    public static void createBill(Bill bill) {
+        // TODO: Add the bill to database and update members balances
     }
 }
