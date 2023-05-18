@@ -30,7 +30,6 @@
                     <children>
                         <Button fx:id="backButton" layoutX="46.0" layoutY="27.0" mnemonicParsing="false" onAction="#goToMainPage" text="VOLVER" />
                         <Button fx:id="newBillButton" layoutX="378.0" layoutY="27.0" mnemonicParsing="false" onAction="#goToCreateBill" text="AÑADIR UNA FACTURA" />
-                        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="168.0" layoutY="31.0" nodeOrientation="LEFT_TO_RIGHT" textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS" />
                     </children>
                 </AnchorPane>
             </items>

@@ -22,8 +22,6 @@ public class LoginEvents {
     private TextField userPhone;
     @FXML
     private Button loginButton;
-    @FXML
-    private Label errorLabel;
 
     private boolean checkLoginInfo() {
         return !userName.getText().isEmpty()
@@ -31,7 +29,7 @@ public class LoginEvents {
                 && !userPhone.getText().isEmpty();
     }
 
-    private boolean sendAlert(String content) {
+    private boolean sendConfirmation(String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Inicio de Sesión");
         alert.setHeaderText("Usuario " + userName.getText());
@@ -40,20 +38,28 @@ public class LoginEvents {
         return confirmation.get() == ButtonType.OK;
     }
 
+    private void sendAlert(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Inicio de Sesión");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
     @FXML
     public void handleLogin(ActionEvent event) throws IOException {
         if (!checkLoginInfo()) {
-            errorLabel.setText("No ha ingresado todos los campos");
+            sendAlert("Error","Todos los campos son obligatorios");
             return;
         }
 
         User userToLog = new User(userName.getText(), userEmail.getText(), userPhone.getText());
         if (UsersController.checkExistingUser(userToLog)) {
-            if (sendAlert("¿Desea iniciar sesión?")) {
+            if (sendConfirmation("¿Desea iniciar sesión?")) {
                 UsersController.setLoggedUser(userToLog);
             }
         } else {
-            if (sendAlert("Su usuario aún no existe. ¿Desea crearlo?")) {
+            if (sendConfirmation("Su usuario aún no existe. ¿Desea crearlo?")) {
                 UsersController.createAndSetLoggedUser(userToLog);
             }
         }

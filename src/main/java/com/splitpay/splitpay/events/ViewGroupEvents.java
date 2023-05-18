@@ -13,10 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -38,8 +35,6 @@ public class ViewGroupEvents implements Initializable {
     private Button backButton;
     @FXML
     private Button newBillButton;
-    @FXML
-    private Label errorLabel;
 
     private Group selectedGroup = GroupsController.getSelectedGroup();
     private ObservableList<Member> groupMembers = FXCollections.observableArrayList(MembersController.getMembersOfGroup(selectedGroup.getName()));
@@ -66,15 +61,23 @@ public class ViewGroupEvents implements Initializable {
     public void goToTransaction(ActionEvent event) throws IOException {
         Member selectedUser = membersTable.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
-            errorLabel.setText("No ha seleccionado un usuario");
+            sendAlert("Error", "No ha seleccionado un usuario");
             return;
         }
         if (selectedUser.getUserName().equals(UsersController.getLoggedUser().getUsername())) {
-            errorLabel.setText("No puede tranferir a sí mismo");
+            sendAlert("Error", "No puede tranferir a sí mismo");
             return;
         }
         TransactionsController.setFromUser(UsersController.getLoggedUser());
         TransactionsController.setToUser(selectedUser.getUser());
         SceneController.goToTransaction(event);
+    }
+
+    private void sendAlert(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Grupo");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

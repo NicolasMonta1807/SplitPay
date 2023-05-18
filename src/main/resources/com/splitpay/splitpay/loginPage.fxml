@@ -16,7 +16,6 @@
                         <TextField fx:id="userName" layoutX="234.0" layoutY="97.0" />
                         <TextField fx:id="userEmail" layoutX="234.0" layoutY="130.0" />
                         <TextField fx:id="userPhone" layoutX="234.0" layoutY="167.0" />
-                  <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="216.0" layoutY="202.0" textAlignment="CENTER" />
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">

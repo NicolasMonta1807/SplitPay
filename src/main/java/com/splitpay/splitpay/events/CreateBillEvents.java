@@ -41,8 +41,6 @@ public class CreateBillEvents implements Initializable {
     @FXML
     private Button createButton;
     @FXML
-    private Label errorLabel;
-    @FXML
     private Button backButton;
 
     private Optional<String> billName;
@@ -72,7 +70,7 @@ public class CreateBillEvents implements Initializable {
     public void removeMemberFromBill(ActionEvent event) {
         Debt selectedDebt = membersTable.getSelectionModel().getSelectedItem();
         if (selectedDebt == null) {
-            errorLabel.setText("No ha seleccionado una deuda para eliminar");
+            sendAlert("Error", "No ha seleccionado una deuda para eliminar");
             return;
         }
         debtsOfBill.remove(selectedDebt);
@@ -85,18 +83,17 @@ public class CreateBillEvents implements Initializable {
 
     private boolean checkAddValues() {
         if (costInsert.getText().isEmpty()) {
-            errorLabel.setText("No ingresó un costo válido");
+            sendAlert("Error", "No ingresó un costo válido");
             return false;
         }
 
         if (!(costInsert.getText().strip().matches("\\d{1,9}"))) {
-            System.out.println("no digito");
-            errorLabel.setText("No ingresó un costo válido");
+            sendAlert("Error", "No ingresó un costo válido");
             return false;
         }
 
         if (getMemberToAdd() == null) {
-            errorLabel.setText("No ha seleccionado un usuario");
+            sendAlert("Error", "No ha seleccionado un usuario");
             return false;
         }
 
@@ -105,7 +102,6 @@ public class CreateBillEvents implements Initializable {
 
     @FXML
     public void addMemberToBill(ActionEvent event) {
-        errorLabel.setText("");
         if (checkAddValues()) {
             Member selectedMember = getMemberToAdd();
             debtsOfBill.add(new Debt(selectedMember, new Member(loggedUser, selectedGroup), Integer.parseInt(costInsert.getText())));
@@ -119,7 +115,7 @@ public class CreateBillEvents implements Initializable {
     public void createBill(ActionEvent event) throws IOException {
 
         if(debtsOfBill.isEmpty()) {
-            errorLabel.setText("No ha añadido deudas a la factura");
+            sendAlert("Error", "No ha añadido deudas a la factura");
             return;
         }
 
@@ -129,7 +125,7 @@ public class CreateBillEvents implements Initializable {
                 return;
             }
             BillsController.createBill(new Bill(billName.get(), debtsOfBill, new Date()));
-            sendAlert("Factura creada exitosamente");
+            sendAlert("Factura " + billName.get(), "Factura creada exitosamente");
             SceneController.goToMainPage(event);
         }
     }
@@ -143,10 +139,10 @@ public class CreateBillEvents implements Initializable {
         return confirmation.get() == ButtonType.OK;
     }
 
-    private void sendAlert(String content) {
+    private void sendAlert(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Factura");
-        alert.setHeaderText("Factura " + billName.get());
+        alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
     }

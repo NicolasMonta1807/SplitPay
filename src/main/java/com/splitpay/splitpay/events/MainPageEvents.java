@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainPageEvents implements Initializable {
@@ -32,8 +33,6 @@ public class MainPageEvents implements Initializable {
     private Button newGroupButton;
     @FXML
     private Button newBillButton;
-    @FXML
-    private Label errorLabel;
 
     private User loggedUser = UsersController.getLoggedUser();
     private ObservableList<Member> userGroups = FXCollections.observableArrayList(MembersController.getGroupsOfUser(loggedUser.getUsername()));
@@ -52,11 +51,19 @@ public class MainPageEvents implements Initializable {
     public void handleViewGroup(ActionEvent event) throws IOException {
         Member selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         if (selectedGroup == null) {
-            errorLabel.setText("No ha seleccionado grupos");
+            sendAlert("Error", "No ha seleccionado un grupo");
         } else {
             GroupsController.setSelectedGroup(selectedGroup.getGroupName());
             SceneController.goToViewGroup(event, selectedGroup.getGroupName());
         }
+    }
+
+    private void sendAlert (String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Menú");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     @FXML
@@ -68,7 +75,7 @@ public class MainPageEvents implements Initializable {
     public void goToCreateBill(ActionEvent event) throws IOException {
         Member selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         if (selectedGroup == null) {
-            errorLabel.setText("No ha seleccionado grupos");
+            sendAlert("Error", "No ha seleccionado un grupo");
         } else {
             GroupsController.setSelectedGroup(selectedGroup.getGroupName());
             SceneController.goToCreateBill(event);

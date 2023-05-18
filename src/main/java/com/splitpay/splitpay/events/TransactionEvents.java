@@ -32,8 +32,6 @@ public class TransactionEvents implements Initializable {
     @FXML
     private RadioButton partialAmount;
     @FXML
-    private Label errorLabel;
-    @FXML
     private Label currentDebt;
 
     int debt;
@@ -54,7 +52,7 @@ public class TransactionEvents implements Initializable {
         if (amount.matches("\\d{1,9}")) {
             TransactionsController.setAmount(Integer.parseInt(amount));
         } else {
-            errorLabel.setText("No ha ingresado una cantidad valida");
+            sendAlert("Error", "No ha ingresado una cantidad válida");
         }
     }
 
@@ -70,7 +68,7 @@ public class TransactionEvents implements Initializable {
         handleTotalTransaction();
         if (sendConfirmation()) {
             TransactionsController.performTransaction();
-            sendAlert();
+            sendAlert("Transacción realizada", "Ha enviado " + debt + " a " + toUser.getUsername());
             SceneController.goToViewGroup(event, GroupsController.getSelectedGroup().getName());
         }
     }
@@ -84,11 +82,11 @@ public class TransactionEvents implements Initializable {
         return confirmation.get() == ButtonType.OK;
     }
 
-    private void sendAlert() {
+    private void sendAlert(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Transacción");
-        alert.setHeaderText("Transacción realizada");
-        alert.setContentText("Ha enviado " + debt + " a " + toUser.getUsername());
+        alert.setHeaderText(header);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 
