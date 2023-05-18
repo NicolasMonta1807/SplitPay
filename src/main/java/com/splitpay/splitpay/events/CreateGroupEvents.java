@@ -1,24 +1,38 @@
 package com.splitpay.splitpay.events;
 
-import com.splitpay.splitpay.SceneController;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
 import javafx.fxml.FXML;
-
-import java.io.IOException;
+import javafx.scene.control.*;
 
 public class CreateGroupEvents {
-    @FXML
-    private Button cancelButton;
+
 
     @FXML
-    public void goToMainPage(ActionEvent event) throws IOException {
-        System.out.println("Going back");
-        SceneController.goToMainPage(event);
+    private TableView newGroupTable;
+    @FXML
+    private TableColumn memberName;
+    @FXML
+    private TableColumn memberMail;
+    @FXML
+    private TextField groupName;
+    @FXML
+    private ChoiceBox leaderSelection;
+    @FXML
+    private Button addMember;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button createButton;
+
+    @FXML
+    public void goToAddMember(ActionEvent event) {
+    }
+
+    @FXML
+    public void goToMainPage(ActionEvent event) {
+    }
+
+    @FXML
+    public void createGroup(ActionEvent event) {
     }
 }
