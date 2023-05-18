@@ -6,8 +6,8 @@ import com.splitpay.splitpay.services.JDBC;
 import java.util.List;
 
 public class UsersController {
-    public static User loggedUser;
-    public static List<User> allCurrentUsers = JDBC.getAllUsers();
+    private static User loggedUser;
+    private static List<User> allCurrentUsers = JDBC.getAllUsers();
 
     public static User getLoggedUser() {
         return loggedUser;

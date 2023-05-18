@@ -14,6 +14,7 @@ public class Member {
     public Member(User user, Group group) {
         this.user = user;
         this.group = group;
+        this.collectiveDebt = 0;
     }
 
     public User getUser() {

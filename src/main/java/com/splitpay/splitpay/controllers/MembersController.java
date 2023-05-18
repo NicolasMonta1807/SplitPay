@@ -31,4 +31,9 @@ public class MembersController {
         }
         return membersToReturn;
     }
+
+    public static void newMember(Member memberToAdd) {
+        JDBC.createMember(memberToAdd);
+        allCurrentMembers.add(memberToAdd);
+    }
 }

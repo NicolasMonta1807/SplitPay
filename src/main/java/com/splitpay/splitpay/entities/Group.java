@@ -5,7 +5,6 @@ import java.util.List;
 public class Group {
     private String name;
     private User leader;
-    private List<User> members;
     public Group() {
     }
 

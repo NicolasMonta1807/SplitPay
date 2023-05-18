@@ -3,6 +3,9 @@ package com.splitpay.splitpay.controllers;
 import com.splitpay.splitpay.entities.Group;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.splitpay.splitpay.entities.Member;
+import com.splitpay.splitpay.entities.User;
 import com.splitpay.splitpay.services.JDBC;
 
 public class GroupsController {
@@ -26,5 +29,14 @@ public class GroupsController {
             }
         }
         return null;
+    }
+
+    public static void createGroup(String groupName, User leader, List<User> groupMembers) {
+        Group groupToCreate = new Group(groupName, leader);
+        JDBC.createGroup(groupToCreate);
+        currentGroups.add(groupToCreate);
+        for(User user: groupMembers) {
+            MembersController.newMember(new Member(user, groupToCreate));
+        }
     }
 }

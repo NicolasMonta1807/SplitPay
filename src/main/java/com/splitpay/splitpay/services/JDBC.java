@@ -25,6 +25,7 @@ public class JDBC {
 
     public static List<User> getAllUsers() {
         // TODO: Load Users table from database
+        System.out.println("Users requested");
         return new ArrayList<>() {
             {
                 add(new User("Nikoresu", "correo", "123"));
@@ -61,5 +62,15 @@ public class JDBC {
     public static void performTransaction(User fromUser, User toUser, int amount) {
         // TODO: Update users balances (Transaction)
         System.out.println("Transaction completed: " + fromUser.getUsername() + " has sent " + amount + " to " + toUser.getUsername());
+    }
+
+    public static void createGroup(Group groupToCreate){
+        // TODO: Insert new group to database
+        System.out.println("Group should be created: " + groupToCreate.getName());
+    }
+
+    public static void createMember(Member memberToCreate) {
+        // TODO: Insert new member to database
+        System.out.println("User " + memberToCreate.getUserName() + " should be added as member of " + memberToCreate.getGroupName());
     }
 }

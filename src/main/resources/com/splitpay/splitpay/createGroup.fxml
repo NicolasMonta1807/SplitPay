@@ -16,10 +16,11 @@
                             </columns>
                         </TableView>
                         <TextField fx:id="groupName" layoutX="126.0" layoutY="30.0" prefHeight="26.0" prefWidth="226.0" promptText="Ingrese el nombre del grupo" />
-                        <Label layoutX="448.0" layoutY="229.0" text="ASIGNAR LIDER" />
-                        <ChoiceBox fx:id="leaderSelection" layoutX="420.0" layoutY="256.0" prefWidth="150.0" />
-                        <Button fx:id="addMember" layoutX="424.0" layoutY="141.0" mnemonicParsing="false" onAction="#goToAddMember" text="AGREGAR MIEMBRO" />
+                        <Label layoutX="449.0" layoutY="261.0" text="ASIGNAR LIDER" />
+                        <ChoiceBox fx:id="leaderSelection" layoutX="421.0" layoutY="288.0" prefWidth="150.0" />
+                        <Button fx:id="addButton" layoutX="424.0" layoutY="141.0" mnemonicParsing="false" onAction="#addMemberToGroup" text="AGREGAR MIEMBRO" />
                         <Label layoutX="44.0" layoutY="34.0" text="Nombre: " />
+                  <ComboBox fx:id="userSelection" layoutX="421.0" layoutY="95.0" prefWidth="150.0" />
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">

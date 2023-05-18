@@ -52,4 +52,9 @@ public class User {
         User other = (User) o;
         return username.equals(other.username) && email.equals(other.email) && phone.equals(other.phone);
     }
+
+    @Override
+    public String toString() {
+        return username;
+    }
 }
