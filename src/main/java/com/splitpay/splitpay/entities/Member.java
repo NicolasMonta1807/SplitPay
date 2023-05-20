@@ -45,7 +45,7 @@ public class Member {
         return this.group.getName();
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return this.user.getUsername();
     }
 

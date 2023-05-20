@@ -3,11 +3,10 @@ package com.splitpay.splitpay.events;
 import com.splitpay.splitpay.SceneController;
 import com.splitpay.splitpay.controllers.GroupsController;
 import com.splitpay.splitpay.controllers.TransactionsController;
-import com.splitpay.splitpay.entities.User;
+import com.splitpay.splitpay.entities.Member;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.io.IOException;
@@ -34,41 +33,44 @@ public class TransactionEvents implements Initializable {
     @FXML
     private Label currentDebt;
 
-    int debt;
-    User fromUser;
-    User toUser;
+    int totalDebt;
+    int currentAmount;
+    Member fromMember;
+    Member toMember;
 
     public void initialize(URL url, ResourceBundle rb) {
-        fromUser = TransactionsController.getFromUser();
-        toUser = TransactionsController.getToUser();
-        transactionDescription.setText("Desde " + fromUser.getUsername() + " hacia " + toUser.getUsername());
-        debt = TransactionsController.getDebt(fromUser, toUser);
-        currentDebt.setText("Actualmente debe: " + debt);
-        transactionAmount.setPromptText(String.valueOf(debt));
+        fromMember = TransactionsController.getFromMember();
+        toMember = TransactionsController.getToMember();
+        transactionDescription.setText("Desde " + fromMember.getUsername() + " hacia " + toMember.getUsername());
+        totalDebt = TransactionsController.getDebt(fromMember, toMember);
+        currentDebt.setText("Actualmente debe: " + totalDebt);
+        transactionAmount.setPromptText(String.valueOf(totalDebt));
     }
 
     private void handlePartialTransaction() {
         String amount = transactionAmount.getText();
         if (amount.matches("\\d{1,9}")) {
-            TransactionsController.setAmount(Integer.parseInt(amount));
+            currentAmount = Integer.parseInt(amount);
+            TransactionsController.setAmount(currentAmount);
         } else {
             sendAlert("Error", "No ha ingresado una cantidad válida");
         }
     }
 
     private void handleTotalTransaction() {
-        TransactionsController.setAmount(debt);
+        TransactionsController.setAmount(totalDebt);
     }
 
     @FXML
     public void createTransaction(ActionEvent event) throws IOException {
         if (partialAmount.isSelected()) {
             handlePartialTransaction();
+        } else {
+            handleTotalTransaction();
         }
-        handleTotalTransaction();
         if (sendConfirmation()) {
             TransactionsController.performTransaction();
-            sendAlert("Transacción realizada", "Ha enviado " + debt + " a " + toUser.getUsername());
+            sendAlert("Transacción realizada", "Ha enviado " + currentAmount + " a " + toMember.getUsername());
             SceneController.goToViewGroup(event, GroupsController.getSelectedGroup().getName());
         }
     }
@@ -76,8 +78,8 @@ public class TransactionEvents implements Initializable {
     private boolean sendConfirmation() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Transacción");
-        alert.setHeaderText("Hacia " + toUser.getUsername());
-        alert.setContentText("¿Desea transferir " + debt + " a " + toUser.getUsername() + "?");
+        alert.setHeaderText("Hacia " + toMember.getUsername());
+        alert.setContentText("¿Desea transferir " + currentAmount + " a " + toMember.getUsername() + "?");
         Optional<ButtonType> confirmation = alert.showAndWait();
         return confirmation.get() == ButtonType.OK;
     }
@@ -92,8 +94,8 @@ public class TransactionEvents implements Initializable {
 
     @FXML
     public void goToViewGroup(ActionEvent event) throws IOException {
-        TransactionsController.setToUser(null);
-        TransactionsController.setFromUser(null);
+        TransactionsController.setToMember(null);
+        TransactionsController.setFromMember(null);
         SceneController.goToViewGroup(event, GroupsController.getSelectedGroup().getName());
     }
 }

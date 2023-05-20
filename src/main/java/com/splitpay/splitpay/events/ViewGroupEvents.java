@@ -7,7 +7,6 @@ import com.splitpay.splitpay.controllers.TransactionsController;
 import com.splitpay.splitpay.controllers.UsersController;
 import com.splitpay.splitpay.entities.Group;
 import com.splitpay.splitpay.entities.Member;
-import com.splitpay.splitpay.entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,7 +17,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ViewGroupEvents implements Initializable {
@@ -41,8 +39,7 @@ public class ViewGroupEvents implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Setting table columns based on selected group's members
-        this.memberName.setCellValueFactory(new PropertyValueFactory<Member, String>("userName"));
+        this.memberName.setCellValueFactory(new PropertyValueFactory<Member, String>("username"));
         this.memberDebt.setCellValueFactory(new PropertyValueFactory<Member, Double>("collectiveDebt"));
         membersTable.setItems(groupMembers);
     }
@@ -59,17 +56,23 @@ public class ViewGroupEvents implements Initializable {
 
     @FXML
     public void goToTransaction(ActionEvent event) throws IOException {
-        Member selectedUser = membersTable.getSelectionModel().getSelectedItem();
-        if (selectedUser == null) {
+        Member selectedMember = membersTable.getSelectionModel().getSelectedItem();
+        if (selectedMember == null) {
             sendAlert("Error", "No ha seleccionado un usuario");
             return;
         }
-        if (selectedUser.getUserName().equals(UsersController.getLoggedUser().getUsername())) {
+        if (selectedMember.getUsername().equals(UsersController.getLoggedUser().getUsername())) {
             sendAlert("Error", "No puede tranferir a sí mismo");
             return;
         }
-        TransactionsController.setFromUser(UsersController.getLoggedUser());
-        TransactionsController.setToUser(selectedUser.getUser());
+        TransactionsController.setToMember(selectedMember);
+
+        for(Member member: groupMembers) {
+            if (member.getUsername().equals(UsersController.getLoggedUser().getUsername())) {
+                TransactionsController.setFromMember(member);
+            }
+        }
+
         SceneController.goToTransaction(event);
     }
 

@@ -51,7 +51,7 @@ public class CreateBillEvents implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        membersOfGroup.removeIf(m -> (m.getUserName().equals(loggedUser.getUsername())));
+        membersOfGroup.removeIf(m -> (m.getUsername().equals(loggedUser.getUsername())));
         availableMembers.setItems(membersOfGroup);
         debtCost.setCellValueFactory(new PropertyValueFactory<Debt, Integer>("debtCost"));
         debtUserName.setCellValueFactory(new PropertyValueFactory<Debt, String>("owingName"));
@@ -105,7 +105,7 @@ public class CreateBillEvents implements Initializable {
         if (checkAddValues()) {
             Member selectedMember = getMemberToAdd();
             debtsOfBill.add(new Debt(selectedMember, new Member(loggedUser, selectedGroup), Integer.parseInt(costInsert.getText())));
-            membersOfGroup.removeIf(m -> (m.getUserName().equals(selectedMember.getUserName())));
+            membersOfGroup.removeIf(m -> (m.getUsername().equals(selectedMember.getUsername())));
             availableMembers.getSelectionModel().clearSelection();
             costInsert.setText("");
         }

@@ -1,9 +1,6 @@
 package com.splitpay.splitpay.services;
 
-import com.splitpay.splitpay.entities.Bill;
-import com.splitpay.splitpay.entities.Group;
-import com.splitpay.splitpay.entities.Member;
-import com.splitpay.splitpay.entities.User;
+import com.splitpay.splitpay.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +22,11 @@ public class JDBC {
 
     public static List<User> getAllUsers() {
         // TODO: Load Users table from database
-        System.out.println("Users requested");
         return new ArrayList<>() {
             {
                 add(new User("Nikoresu", "correo", "123"));
                 add(new User("Gabriel", "correo", "456"));
-                add(new User("Juanjo", "correo", "789"));
+                add(new User("JuanJo", "correo", "789"));
             }
         };
     }
@@ -54,23 +50,23 @@ public class JDBC {
         // TODO: Add the bill to database and update members balances (Transaction)
     }
 
-    public static int getDebt(User fromUser, User toUser) {
-        // TODO: Calculate the debt that fromUser ows toUser
+    public static int getDebt(Member fromMember, Member toMember) {
+        // TODO: Calculate the debt that fromMember ows toMember
         return new Random().nextInt(1001);
     }
 
-    public static void performTransaction(User fromUser, User toUser, int amount) {
+    public static void performTransaction(Transaction transaction) {
         // TODO: Update users balances (Transaction)
-        System.out.println("Transaction completed: " + fromUser.getUsername() + " has sent " + amount + " to " + toUser.getUsername());
+        System.out.println("Transaction completed: " + transaction.getFromMember().getUsername() + " has sent " + transaction.getAmount() + " to " + transaction.getToMember().getUsername());
     }
 
-    public static void createGroup(Group groupToCreate){
+    public static void createGroup(Group groupToCreate) {
         // TODO: Insert new group to database
         System.out.println("Group should be created: " + groupToCreate.getName());
     }
 
     public static void createMember(Member memberToCreate) {
         // TODO: Insert new member to database
-        System.out.println("User " + memberToCreate.getUserName() + " should be added as member of " + memberToCreate.getGroupName());
+        System.out.println("User " + memberToCreate.getUsername() + " should be added as member of " + memberToCreate.getGroupName());
     }
 }

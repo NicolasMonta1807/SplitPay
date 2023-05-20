@@ -36,7 +36,7 @@ public class Debt {
     }
 
     public String getOwingName() {
-        return this.owing.getUserName();
+        return this.owing.getUsername();
     }
 
     public String getOwingEmail() {
