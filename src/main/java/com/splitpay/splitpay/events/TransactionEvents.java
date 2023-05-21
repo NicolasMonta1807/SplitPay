@@ -48,12 +48,16 @@ public class TransactionEvents implements Initializable {
     }
 
     private void handlePartialTransaction() {
+        TransactionsController.setAmount(currentAmount);
+    }
+
+    private boolean checkValue() {
         String amount = transactionAmount.getText();
         if (amount.matches("\\d{1,9}")) {
-            currentAmount = Integer.parseInt(amount);
-            TransactionsController.setAmount(currentAmount);
+            return true;
         } else {
             sendAlert("Error", "No ha ingresado una cantidad válida");
+            return false;
         }
     }
 
@@ -64,7 +68,12 @@ public class TransactionEvents implements Initializable {
     @FXML
     public void createTransaction(ActionEvent event) throws IOException {
         if (partialAmount.isSelected()) {
-            handlePartialTransaction();
+            if (checkValue()) {
+                currentAmount = Integer.parseInt(transactionAmount.getText());
+                handlePartialTransaction();
+            } else {
+                return;
+            }
         } else {
             handleTotalTransaction();
         }
