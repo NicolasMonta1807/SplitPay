@@ -79,37 +79,39 @@ public class JDBC {
     }
 
     public static void createUser(User userToCreate) throws SQLException {
-        String Consulta = "select count(codigousuario) as num from usuario";
-        String insert = "insert into usuario values (?,?,?,?)";
-        Connection connex = null;
+        String consultQuery = "select count(codigousuario) as num from usuario";
+        String insertQuery = "insert into usuario values (?,?,?,?)";
+        Connection connection = null;
         try {
-            connex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
-            PreparedStatement ps = connex.prepareStatement(Consulta);
-            PreparedStatement ins = connex.prepareStatement(insert);
-            ResultSet rs = ps.executeQuery();
-            connex.setAutoCommit(false);
-            while (rs.next()) {
-                int temp = Integer.parseInt(rs.getString("num")) + 1;
-                ins.setString(1, userToCreate.getUsername());
-                ins.setString(2, userToCreate.getEmail());
-                ins.setString(3, userToCreate.getPhone());
-                ins.setInt(4, temp);
-                ins.executeUpdate();
+            connection = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+            PreparedStatement consultStatement = connection.prepareStatement(consultQuery);
+            PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+            ResultSet consultResult = consultStatement.executeQuery();
+            connection.setAutoCommit(false);
+
+            while (consultResult.next()) {
+                int temp = Integer.parseInt(consultResult.getString("num")) + 1;
+                insertStatement.setString(1, userToCreate.getUsername());
+                insertStatement.setString(2, userToCreate.getEmail());
+                insertStatement.setString(3, userToCreate.getPhone());
+                insertStatement.setInt(4, temp);
+                insertStatement.executeUpdate();
             }
-            connex.commit();
-            connex.close();
-        } catch (SQLException ex) {
-            if (connex != null) {
+
+            connection.commit();
+            connection.close();
+        } catch (SQLException e) {
+            if (connection != null) {
                 try {
-                    connex.rollback();
-                } catch (SQLException e) {
+                    connection.rollback();
+                } catch (SQLException ex) {
                     System.out.println("Error de Conexión");
                     ex.printStackTrace();
                 }
             }
-            System.out.println("Error de Inserción");
-            ex.printStackTrace();
-            throw ex;
+
+            System.out.println("Error de Inserción: " + e.getMessage());
+            throw e;
         }
     }
 

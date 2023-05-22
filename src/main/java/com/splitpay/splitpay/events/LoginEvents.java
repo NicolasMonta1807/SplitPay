@@ -50,7 +50,7 @@ public class LoginEvents {
     @FXML
     public void handleLogin(ActionEvent event) throws IOException {
         if (!checkLoginInfo()) {
-            sendAlert("Error","Todos los campos son obligatorios");
+            sendAlert("Error", "Todos los campos son obligatorios");
             return;
         }
 
@@ -64,8 +64,18 @@ public class LoginEvents {
                 try {
                     UsersController.createAndSetLoggedUser(userToLog);
                 } catch (SQLException e) {
-                    sendAlert("Error", "El nombre de usuario ya está tomado");
-                    throw new RuntimeException(e);
+                    String errorMessage = "Internal Application Error";
+                    if (e.getMessage().contains("UNIQUEUSERNAME")) {
+                        errorMessage = "El nombre de usuario ya está tomado";
+                    }
+                    if (e.getMessage().contains("VALIDEMAIL")) {
+                        errorMessage = "Correo inválido";
+                    }
+                    if (e.getMessage().contains("VALIDPHONENUMBER")) {
+                        errorMessage = "Teléfono inválido";
+                    }
+                    sendAlert("Error", errorMessage);
+                    return;
                 }
             }
         }
