@@ -3,6 +3,7 @@ package com.splitpay.splitpay.controllers;
 import com.splitpay.splitpay.entities.User;
 import com.splitpay.splitpay.services.JDBC;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class UsersController {
@@ -17,7 +18,7 @@ public class UsersController {
         UsersController.loggedUser = userToLog;
     }
 
-    public static void createAndSetLoggedUser(User userToLog) {
+    public static void createAndSetLoggedUser(User userToLog) throws SQLException {
         allCurrentUsers.add(userToLog);
         JDBC.createUser(userToLog);
         setLoggedUser(userToLog);

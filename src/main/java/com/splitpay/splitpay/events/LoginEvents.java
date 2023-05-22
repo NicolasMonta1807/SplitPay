@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class LoginEvents {
@@ -60,7 +61,12 @@ public class LoginEvents {
             }
         } else {
             if (sendConfirmation("Su usuario aún no existe. ¿Desea crearlo?")) {
-                UsersController.createAndSetLoggedUser(userToLog);
+                try {
+                    UsersController.createAndSetLoggedUser(userToLog);
+                } catch (SQLException e) {
+                    sendAlert("Error", "El nombre de usuario ya está tomado");
+                    throw new RuntimeException(e);
+                }
             }
         }
         SceneController.goToMainPage(event);

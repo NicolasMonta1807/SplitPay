@@ -1,7 +1,5 @@
 package com.splitpay.splitpay.entities;
 
-import javafx.scene.image.Image;
-
 import java.util.Date;
 import java.util.List;
 

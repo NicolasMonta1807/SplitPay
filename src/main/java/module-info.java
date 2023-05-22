@@ -1,6 +1,8 @@
 module com.splitpay.splitpay {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
+    requires java.dotenv;
 
 
     opens com.splitpay.splitpay to javafx.fxml;

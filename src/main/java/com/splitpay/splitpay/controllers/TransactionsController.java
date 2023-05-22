@@ -40,6 +40,6 @@ public class TransactionsController {
 
     public static void performTransaction() {
         Transaction transaction = new Transaction(fromMember, toMember, amount);
-        JDBC.performTransaction(transaction);
+        JDBC.createTransaction(transaction);
     }
 }
