@@ -126,6 +126,7 @@ public class CreateBillEvents implements Initializable {
             }
             BillsController.createBill(new Bill(billName.get(), debtsOfBill, new Date()));
             sendAlert("Factura " + billName.get(), "Factura creada exitosamente");
+            MembersController.reloadMembers();
             SceneController.goToMainPage(event);
         }
     }

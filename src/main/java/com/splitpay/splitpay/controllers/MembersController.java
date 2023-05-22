@@ -36,4 +36,8 @@ public class MembersController {
         JDBC.createMember(memberToAdd);
         allCurrentMembers.add(memberToAdd);
     }
+
+    public static void reloadMembers() {
+        allCurrentMembers = JDBC.getAllMembers();
+    }
 }

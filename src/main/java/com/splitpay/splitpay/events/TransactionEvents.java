@@ -2,6 +2,7 @@ package com.splitpay.splitpay.events;
 
 import com.splitpay.splitpay.SceneController;
 import com.splitpay.splitpay.controllers.GroupsController;
+import com.splitpay.splitpay.controllers.MembersController;
 import com.splitpay.splitpay.controllers.TransactionsController;
 import com.splitpay.splitpay.entities.Member;
 import javafx.event.ActionEvent;
@@ -62,6 +63,7 @@ public class TransactionEvents implements Initializable {
     }
 
     private void handleTotalTransaction() {
+        currentAmount = totalDebt;
         TransactionsController.setAmount(totalDebt);
     }
 
@@ -80,6 +82,7 @@ public class TransactionEvents implements Initializable {
         if (sendConfirmation()) {
             TransactionsController.performTransaction();
             sendAlert("Transacción realizada", "Ha enviado " + currentAmount + " a " + toMember.getUsername());
+            MembersController.reloadMembers();
             SceneController.goToViewGroup(event, GroupsController.getSelectedGroup().getName());
         }
     }
