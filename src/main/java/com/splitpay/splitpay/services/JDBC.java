@@ -358,7 +358,7 @@ public class JDBC {
 
     public static void createGroup(Group groupToCreate) {
         String Consulta = "select count(codigogrupo) as num from grupo";
-        String Consulta2 = "select codigousuario from usuario join grupo on codigousuario = lider where nombreusuario = ?";
+        String Consulta2 = "select codigousuario from usuario where nombreusuario = ?";
         String insert = "insert into grupo values (?,?,?)";
         Connection connex = null;
         try {
