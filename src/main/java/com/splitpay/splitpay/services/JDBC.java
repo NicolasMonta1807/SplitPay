@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBC {
-    public static List<Member> getAllMembers() {
+    public static List<Member> getAllMembers() throws SQLException {
         String Consulta = "select nombreusuario, email, telefono, nombregrupo, Deudacolectiva from usuario natural join miembro natural join grupo";
         return new ArrayList<>() {
             {
@@ -22,20 +22,19 @@ public class JDBC {
                     }
 
                 } catch (SQLException ex) {
-                    System.out.println("Error de Conexión");
-                    ex.printStackTrace();
+                    System.out.println("Error de Conexión: " + ex.getMessage());
+                    throw ex;
                 }
-
-
             }
         };
     }
 
-    public static List<User> getAllUsers() {
+    public static List<User> getAllUsers() throws SQLException {
         String Consulta = "select nombreusuario, email, telefono from usuario";
         System.out.println("Users requested");
         return new ArrayList<>() {
             {
+                DriverManager.setLoginTimeout(5);
                 try (
                         Connection connex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
                         PreparedStatement ps = connex.prepareStatement(Consulta);
@@ -46,16 +45,14 @@ public class JDBC {
                     }
 
                 } catch (SQLException ex) {
-                    System.out.println("Error de Conexión");
-                    ex.printStackTrace();
+                    System.out.println("Error de Conexión: " + ex.getMessage());
+                    throw ex;
                 }
-
-
             }
         };
     }
 
-    public static List<Group> getAllGroups() {
+    public static List<Group> getAllGroups() throws SQLException {
         String Consulta = "select nombregrupo, nombreusuario, email, telefono from grupo join usuario on codigousuario = lider";
         return new ArrayList<>() {
             {
@@ -69,11 +66,9 @@ public class JDBC {
                     }
 
                 } catch (SQLException ex) {
-                    System.out.println("Error de Conexión");
-                    ex.printStackTrace();
+                    System.out.println("Error de Conexión: " + ex.getMessage());
+                    throw ex;
                 }
-
-
             }
         };
     }
@@ -115,7 +110,7 @@ public class JDBC {
         }
     }
 
-    public static void createBill(Bill bill) {
+    public static void createBill(Bill bill) throws SQLException {
         String Consulta = "select count(codigofactura) as num from facturas";
         String insert = "insert into facturas values (?,?,?)";
         Connection connex = null;
@@ -134,21 +129,21 @@ public class JDBC {
             }
             connex.commit();
             connex.close();
-        } catch (SQLException ex) {
+        } catch (SQLException e) {
             if (connex != null) {
                 try {
                     connex.rollback();
-                } catch (SQLException e) {
-                    System.out.println("Error de Conexión");
-                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    System.out.println("Error de Conexión: " + ex.getMessage());
+                    throw ex;
                 }
             }
-            System.out.println("Error de Conexión");
-            ex.printStackTrace();
+            System.out.println("Error de Inserción: " + e.getMessage());
+            throw e;
         }
     }
 
-    public static int getDebt(Member fromMember, Member toMember) {
+    public static int getDebt(Member fromMember, Member toMember) throws SQLException {
         String Consulta = """
                 with
                 miembroXdeudor (costo, codigodeuda, deudor, creditor, usuariodeudor, nombredeudor, monto) as (
@@ -165,36 +160,26 @@ public class JDBC {
 
         int deudas = 0;
 
-        try (
-                Connection connex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
-                PreparedStatement ps = connex.prepareStatement(Consulta)
-
-
-        ) {
+        try {
+            Connection connex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+            PreparedStatement ps = connex.prepareStatement(Consulta);
             ps.setString(1, fromMember.getUsername());
             ps.setString(2, toMember.getUsername());
             ps.setString(3, toMember.getGroupName());
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-
                 deudas = rs.getInt("costo") - rs.getInt("transaccionTotal");
-
-
             }
-
             rs.close();
             return deudas;
-
-
         } catch (SQLException ex) {
-            System.out.println("Error de Conexión");
-            ex.printStackTrace();
+            System.out.println("Error de Conexión: " + ex.getMessage());
+            throw ex;
         }
-        return deudas;
     }
 
-    public static void createDebt(Bill bill, Debt debt) {
+    public static void createDebt(Bill bill, Debt debt) throws SQLException {
         String Consulta = "select codigofactura from facturas where nombrefactura = ?";
         String insert = "insert into deuda values (?,?,?,?,?)";
         String Consulta2 = "select count(codigodeuda) as num from deuda";
@@ -260,21 +245,21 @@ public class JDBC {
             connex.commit();
             connex.close();
 
-        } catch (SQLException ex) {
+        } catch (SQLException e) {
             if (connex != null) {
                 try {
                     connex.rollback();
-                } catch (SQLException e) {
-                    System.out.println("Error de Conexión");
-                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    System.out.println("Error de Conexión: " + ex.getMessage());
+                    throw ex;
                 }
             }
-            System.out.println("Error de Conexión");
-            ex.printStackTrace();
+            System.out.println("Error de Inserción: " + e.getMessage());
+            throw e;
         }
     }
 
-    public static void createTransaction(Transaction transaction) {
+    public static void createTransaction(Transaction transaction) throws SQLException {
         String insert = "insert into transaccion values (?,?,?,?)";
         String Consulta = "select count(codigotransaccion) as num from transaccion";
         String Consulta2 = "select codigomiembro from miembro natural join usuario natural join grupo where nombreusuario = ? and nombregrupo = ?";
@@ -341,22 +326,21 @@ public class JDBC {
 
             connex.commit();
             connex.close();
-        } catch (SQLException ex) {
-
+        } catch (SQLException e) {
             if (connex != null) {
                 try {
                     connex.rollback();
-                } catch (SQLException e) {
-                    System.out.println("Error de Conexión");
-                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    System.out.println("Error de Conexión: " + ex.getMessage());
+                    throw ex;
                 }
             }
-            System.out.println("Error de Conexión");
-            ex.printStackTrace();
+            System.out.println("Error de Inserción: " + e.getMessage());
+            throw e;
         }
     }
 
-    public static void createGroup(Group groupToCreate) {
+    public static void createGroup(Group groupToCreate) throws SQLException {
         String Consulta = "select count(codigogrupo) as num from grupo";
         String Consulta2 = "select codigousuario from usuario where nombreusuario = ?";
         String insert = "insert into grupo values (?,?,?)";
@@ -384,21 +368,21 @@ public class JDBC {
 
             connex.commit();
             connex.close();
-        } catch (SQLException ex) {
+        } catch (SQLException e) {
             if (connex != null) {
                 try {
                     connex.rollback();
-                } catch (SQLException e) {
-                    System.out.println("Error de Conexión");
-                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    System.out.println("Error de Conexión: " + ex.getMessage());
+                    throw ex;
                 }
             }
-            System.out.println("Error de Conexión");
-            ex.printStackTrace();
+            System.out.println("Error de Inserción: " + e.getMessage());
+            throw e;
         }
     }
 
-    public static void createMember(Member memberToCreate) {
+    public static void createMember(Member memberToCreate) throws SQLException {
         String Consulta = "select count(codigomiembro) as num from miembro";
         String Consulta2 = "select codigousuario from usuario where nombreusuario = ?";
         String Consulta3 = "select codigogrupo from grupo where nombregrupo = ?";
@@ -433,17 +417,17 @@ public class JDBC {
             }
             connex.commit();
             connex.close();
-        } catch (SQLException ex) {
+        } catch (SQLException e) {
             if (connex != null) {
                 try {
                     connex.rollback();
-                } catch (SQLException e) {
-                    System.out.println("Error de Conexión");
-                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    System.out.println("Error de Conexión: " + ex.getMessage());
+                    throw e;
                 }
             }
-            System.out.println("Error de Conexión");
-            ex.printStackTrace();
+            System.out.println("Error de Inserción: " + e.getMessage());
+            throw e;
         }
     }
 }

@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -93,7 +94,12 @@ public class CreateGroupEvents implements Initializable {
         if(checkValues()) {
             String name = groupName.getText();
             User leader = leaderSelection.getSelectionModel().getSelectedItem();
-            GroupsController.createGroup(name, leader, groupMembers);
+            try {
+                GroupsController.createGroup(name, leader, groupMembers);
+            } catch (SQLException e) {
+                sendAlert("Error", "No se pudo crear el grupo");
+                return;
+            }
             sendAlert("Grupo creado", "El grupo " + name + " ha sido creado satisfactoriamente");
             SceneController.goToMainPage(event);
         }

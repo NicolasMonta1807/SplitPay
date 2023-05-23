@@ -5,6 +5,8 @@ import com.splitpay.splitpay.entities.Transaction;
 import com.splitpay.splitpay.entities.User;
 import com.splitpay.splitpay.services.JDBC;
 
+import java.sql.SQLException;
+
 public class TransactionsController {
     private static Member fromMember;
     private static Member toMember;
@@ -34,11 +36,11 @@ public class TransactionsController {
         TransactionsController.amount = amount;
     }
 
-    public static int getDebt(Member fromUser, Member toUser) {
+    public static int getDebt(Member fromUser, Member toUser) throws SQLException {
         return JDBC.getDebt(fromUser, toUser);
     }
 
-    public static void performTransaction() {
+    public static void performTransaction() throws SQLException {
         Transaction transaction = new Transaction(fromMember, toMember, amount);
         JDBC.createTransaction(transaction);
     }

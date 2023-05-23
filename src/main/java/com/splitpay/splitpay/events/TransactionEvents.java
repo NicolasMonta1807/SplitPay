@@ -5,6 +5,7 @@ import com.splitpay.splitpay.controllers.GroupsController;
 import com.splitpay.splitpay.controllers.MembersController;
 import com.splitpay.splitpay.controllers.TransactionsController;
 import com.splitpay.splitpay.entities.Member;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +13,7 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -43,7 +45,12 @@ public class TransactionEvents implements Initializable {
         fromMember = TransactionsController.getFromMember();
         toMember = TransactionsController.getToMember();
         transactionDescription.setText("Desde " + fromMember.getUsername() + " hacia " + toMember.getUsername());
-        totalDebt = TransactionsController.getDebt(fromMember, toMember);
+        try {
+            totalDebt = TransactionsController.getDebt(fromMember, toMember);
+        } catch (SQLException e) {
+            sendAlert("Error", "No se pudo obtener la deuda");
+            Platform.exit();
+        }
         currentDebt.setText("Actualmente debe: " + totalDebt);
         transactionAmount.setPromptText(String.valueOf(totalDebt));
     }
@@ -80,9 +87,19 @@ public class TransactionEvents implements Initializable {
             handleTotalTransaction();
         }
         if (sendConfirmation()) {
-            TransactionsController.performTransaction();
+            try {
+                TransactionsController.performTransaction();
+            } catch (SQLException e) {
+                sendAlert("Error", "No se pudo realizar la transaccíon");
+                return;
+            }
             sendAlert("Transacción realizada", "Ha enviado " + currentAmount + " a " + toMember.getUsername());
-            MembersController.reloadMembers();
+            try {
+                MembersController.reloadMembers();
+            } catch (SQLException e) {
+                sendAlert("Error", "No se puede conectar con la base de datos");
+                return;
+            }
             SceneController.goToViewGroup(event, GroupsController.getSelectedGroup().getName());
         }
     }

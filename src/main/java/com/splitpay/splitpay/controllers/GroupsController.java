@@ -1,6 +1,8 @@
 package com.splitpay.splitpay.controllers;
 
 import com.splitpay.splitpay.entities.Group;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +12,11 @@ import com.splitpay.splitpay.services.JDBC;
 
 public class GroupsController {
     private static Group selectedGroup;
+    private static List<Group> currentGroups = null;
 
-    // TODO: Load groups table from database
-    private static List<Group> currentGroups = JDBC.getAllGroups();
+    public static void loadGroups() throws SQLException {
+        currentGroups = JDBC.getAllGroups();
+    }
 
     public static Group getSelectedGroup() {
         return selectedGroup;
@@ -31,7 +35,7 @@ public class GroupsController {
         return null;
     }
 
-    public static void createGroup(String groupName, User leader, List<User> groupMembers) {
+    public static void createGroup(String groupName, User leader, List<User> groupMembers) throws SQLException {
         Group groupToCreate = new Group(groupName, leader);
         JDBC.createGroup(groupToCreate);
         currentGroups.add(groupToCreate);

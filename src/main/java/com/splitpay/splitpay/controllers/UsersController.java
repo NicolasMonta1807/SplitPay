@@ -4,11 +4,16 @@ import com.splitpay.splitpay.entities.User;
 import com.splitpay.splitpay.services.JDBC;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsersController {
     private static User loggedUser;
-    private static List<User> allCurrentUsers = JDBC.getAllUsers();
+    private static List<User> allCurrentUsers = null;
+
+    public static void loadUsers() throws SQLException {
+        allCurrentUsers = JDBC.getAllUsers();
+    }
 
     public static User getLoggedUser() {
         return loggedUser;

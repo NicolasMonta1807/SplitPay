@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
@@ -124,9 +125,19 @@ public class CreateBillEvents implements Initializable {
             if(billName.isEmpty()) {
                 return;
             }
-            BillsController.createBill(new Bill(billName.get(), debtsOfBill, new Date()));
+            try {
+                BillsController.createBill(new Bill(billName.get(), debtsOfBill, new Date()));
+            } catch (SQLException e) {
+                sendAlert("Error", "No se ha podido crear la factura");
+                return;
+            }
             sendAlert("Factura " + billName.get(), "Factura creada exitosamente");
-            MembersController.reloadMembers();
+            try {
+                MembersController.reloadMembers();
+            } catch (SQLException e) {
+                sendAlert("Error", "No se pudo conectar con la base de datos");
+                return;
+            }
             SceneController.goToMainPage(event);
         }
     }

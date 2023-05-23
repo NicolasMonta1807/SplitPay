@@ -53,7 +53,12 @@ public class LoginEvents {
             sendAlert("Error", "Todos los campos son obligatorios");
             return;
         }
-
+        try {
+            UsersController.loadUsers();
+        } catch (SQLException e) {
+            sendAlert("Error", "No se pudo conectar con la base de datos");
+            return;
+        }
         User userToLog = new User(userName.getText(), userEmail.getText(), userPhone.getText());
         if (UsersController.checkExistingUser(userToLog)) {
             if (sendConfirmation("¿Desea iniciar sesión?")) {

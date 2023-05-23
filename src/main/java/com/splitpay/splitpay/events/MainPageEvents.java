@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -35,13 +36,25 @@ public class MainPageEvents implements Initializable {
     private Button newBillButton;
 
     private User loggedUser = UsersController.getLoggedUser();
-    private ObservableList<Member> userGroups = FXCollections.observableArrayList(MembersController.getGroupsOfUser(loggedUser.getUsername()));
+    private ObservableList<Member> userGroups;
     @FXML
     private Button exitButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Setting table columns values based on current members
+        try {
+            MembersController.loadAllMembers();
+        } catch (SQLException e) {
+            sendAlert("Error", "No se pudo conectar con la base de datos");
+            Platform.exit();
+        }
+        try {
+            GroupsController.loadGroups();
+        } catch (SQLException e) {
+            sendAlert("Error", "No se pudo conectar con la base de datos");
+            Platform.exit();
+        }
+        this.userGroups = FXCollections.observableArrayList(MembersController.getGroupsOfUser(loggedUser.getUsername()));
         this.groupName.setCellValueFactory(new PropertyValueFactory<Member, String>("groupName"));
         this.groupPersonalDebt.setCellValueFactory(new PropertyValueFactory<Member, Integer>("collectiveDebt"));
         groupTable.setItems(userGroups);
