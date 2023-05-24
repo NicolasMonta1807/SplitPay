@@ -1,6 +1,7 @@
 package com.splitpay.splitpay.events;
 
 import com.splitpay.splitpay.SceneController;
+import com.splitpay.splitpay.controllers.BillsController;
 import com.splitpay.splitpay.controllers.GroupsController;
 import com.splitpay.splitpay.controllers.MembersController;
 import com.splitpay.splitpay.controllers.UsersController;
@@ -39,6 +40,8 @@ public class MainPageEvents implements Initializable {
     private ObservableList<Member> userGroups;
     @FXML
     private Button exitButton;
+    @FXML
+    private Button reportButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -98,5 +101,19 @@ public class MainPageEvents implements Initializable {
     @FXML
     public void exitApplication(ActionEvent actionEvent) {
         Platform.exit();
+    }
+
+    @FXML
+    public void goToReport(ActionEvent event) throws IOException {
+        try {
+            if(BillsController.getReport().isEmpty()) {
+                sendAlert("Error", "Aún no hay facturas");
+                return;
+            }
+        } catch (SQLException e) {
+            sendAlert("Error", "No se pudo conectar con la base de datos");
+            Platform.exit();
+        }
+        SceneController.goToReport(event);
     }
 }

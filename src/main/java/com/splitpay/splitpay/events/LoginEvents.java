@@ -63,6 +63,8 @@ public class LoginEvents {
         if (UsersController.checkExistingUser(userToLog)) {
             if (sendConfirmation("¿Desea iniciar sesión?")) {
                 UsersController.setLoggedUser(userToLog);
+            } else {
+                return;
             }
         } else {
             if (sendConfirmation("Su usuario aún no existe. ¿Desea crearlo?")) {

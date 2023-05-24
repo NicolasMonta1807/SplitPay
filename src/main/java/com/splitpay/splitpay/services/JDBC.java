@@ -3,8 +3,11 @@ package com.splitpay.splitpay.services;
 import com.splitpay.splitpay.entities.*;
 
 import java.sql.*;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JDBC {
     public static List<Member> getAllMembers() throws SQLException {
@@ -31,7 +34,6 @@ public class JDBC {
 
     public static List<User> getAllUsers() throws SQLException {
         String Consulta = "select nombreusuario, email, telefono from usuario";
-        System.out.println("Users requested");
         return new ArrayList<>() {
             {
                 DriverManager.setLoginTimeout(5);
@@ -100,8 +102,7 @@ public class JDBC {
                 try {
                     connection.rollback();
                 } catch (SQLException ex) {
-                    System.out.println("Error de Conexión");
-                    ex.printStackTrace();
+                    System.out.println("Error de Conexión: " + ex.getMessage());
                 }
             }
 
@@ -110,23 +111,29 @@ public class JDBC {
         }
     }
 
-    public static void createBill(Bill bill) throws SQLException {
+    public static void createBill(Bill bill, Group group) throws SQLException {
         String Consulta = "select count(codigofactura) as num from facturas";
-        String insert = "insert into facturas values (?,?,?)";
+        String ConsultaGroup = "select codigogrupo from grupo where nombregrupo = ?";
+        String insert = "insert into facturas values (?,?,?,?)";
         Connection connex = null;
         try {
             connex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
             PreparedStatement ps = connex.prepareStatement(Consulta);
+            PreparedStatement cg = connex.prepareStatement(ConsultaGroup);
             PreparedStatement ins = connex.prepareStatement(insert);
             ResultSet rs = ps.executeQuery();
             connex.setAutoCommit(false);
-            while (rs.next()) {
-                int temp = Integer.parseInt(rs.getString("num")) + 1;
-                ins.setString(1, bill.getName());
-                ins.setDate(2, new java.sql.Date(bill.getDate().getTime()));
-                ins.setInt(3, temp);
-                ins.executeUpdate();
-            }
+            cg.setString(1, group.getName());
+            ResultSet ConsGrupo = cg.executeQuery();
+            ConsGrupo.next();
+            rs.next();
+            int temp = Integer.parseInt(rs.getString("num")) + 1;
+            ins.setString(1, bill.getName());
+            ins.setDate(2, new java.sql.Date(bill.getDate().getTime()));
+            ins.setInt(3, temp);
+            ins.setInt(4, ConsGrupo.getInt("codigogrupo"));
+            ins.executeUpdate();
+
             connex.commit();
             connex.close();
         } catch (SQLException e) {
@@ -429,5 +436,44 @@ public class JDBC {
             System.out.println("Error de Inserción: " + e.getMessage());
             throw e;
         }
+    }
+
+    public static Map<String, Map<String, Integer>> getReports(User loggedUser) throws SQLException {
+        String Consulta = """
+                select count(codigofactura) as cantidad, extract(year from fecha) as year, extract(MONTH from fecha) as month, nombregrupo 
+                from facturas natural join grupo natural join miembro natural join usuario
+                where nombreusuario = ?
+                group by extract(year from fecha), extract(month from fecha), nombregrupo
+                """;
+
+        Map<String, Map<String, Integer>> map = new HashMap<>();
+
+        try {
+            Connection connex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+            PreparedStatement ps = connex.prepareStatement(Consulta);
+            ps.setString(1, loggedUser.getUsername());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String outerKey = new DateFormatSymbols().getMonths()[rs.getInt("month") - 1] + " - " + rs.getInt("year");
+                String innerKey = rs.getString("nombregrupo");
+                int value = rs.getInt("cantidad");
+                if (map.containsKey(outerKey)) {
+                    Map<String, Integer> innerMap = map.get(outerKey);
+                    innerMap.put(innerKey, value);
+                    innerMap.put("total", innerMap.get("total") + value);
+                } else {
+                    HashMap<String, Integer> innerHashMap = new HashMap<>();
+                    innerHashMap.put(innerKey, value);
+                    innerHashMap.put("total", value);
+                    map.put(outerKey, innerHashMap);
+                }
+            }
+            connex.close();
+            ps.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw e;
+        }
+        return map;
     }
 }

@@ -5,15 +5,28 @@ import com.splitpay.splitpay.entities.Debt;
 import com.splitpay.splitpay.services.JDBC;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 public class BillsController {
+    private static Map<String, Map<String, Integer>> report;
+
     public static void createBill(Bill billToCreate) throws SQLException {
-        System.out.println("Factura creada: ");
-        System.out.println(billToCreate.getDate());
-        JDBC.createBill(billToCreate);
-        for(Debt debt: billToCreate.getBillDepts()) {
-            System.out.println("\t" + debt.getOwingName()  + " debe a " + debt.getCreditor().getUsername() + ": " + debt.getDebtCost());
+        JDBC.createBill(billToCreate, GroupsController.getSelectedGroup());
+        for (Debt debt : billToCreate.getBillDepts()) {
             JDBC.createDebt(billToCreate, debt);
         }
+    }
+
+    public static void loadReport() throws SQLException {
+        report = JDBC.getReports(UsersController.getLoggedUser());
+    }
+
+    public static Map<String, Map<String, Integer>> getReport() throws SQLException {
+        loadReport();
+        return report;
+    }
+
+    public static void setReport(Map<String, Map<String, Integer>> report) {
+        BillsController.report = report;
     }
 }

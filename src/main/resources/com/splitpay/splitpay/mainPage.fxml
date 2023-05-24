@@ -30,6 +30,7 @@
                                             <rowConstraints>
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                             <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -41,6 +42,11 @@
                                                     <children>
                                                         <Button fx:id="newGroupButton" mnemonicParsing="false" onAction="#goToCreateGroup" text="NUEVO GRUPO" />
                                                     </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
+                                                   <children>
+                                                      <Button fx:id="reportButton" mnemonicParsing="false" onAction="#goToReport" text="VER REPORTE" />
+                                                   </children>
                                                 </HBox>
                                             </children>
                                         </GridPane>
