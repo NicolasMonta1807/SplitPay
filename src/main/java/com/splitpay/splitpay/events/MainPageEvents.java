@@ -99,8 +99,9 @@ public class MainPageEvents implements Initializable {
     }
 
     @FXML
-    public void exitApplication(ActionEvent actionEvent) {
-        Platform.exit();
+    public void exitApplication(ActionEvent event) throws IOException {
+        UsersController.setLoggedUser(null);
+        SceneController.goToLoginPage(event);
     }
 
     @FXML

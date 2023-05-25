@@ -153,17 +153,17 @@ public class JDBC {
     public static int getDebt(Member fromMember, Member toMember) throws SQLException {
         String Consulta = """
                 with
-                miembroXdeudor (costo, codigodeuda, deudor, creditor, usuariodeudor, nombredeudor, monto) as (
-                select costodeuda, codigodeuda, deudor, creditor, codigousuario as usuariodeudor, nombreusuario as nombredeudor, nvl(monto, 0) as monto
-                from deuda join miembro on (codigomiembro = deudor) natural join usuario left outer join transaccion on (codigomiembro = envia)),
-
-                miembroXdeudorXcreditor (costo, codigodeuda, deudor, creditor, usuariodeudor, nombredeudor, usuariocreditor, nombrecreditor, nombregrupo, codigogrupo, monto) as (
-                select costo, codigodeuda, deudor, creditor, usuariodeudor, nombredeudor, codigousuario as usuariocreditor, nombreusuario as nombrecreditor, nombregrupo, codigogrupo, monto
-                from miembroXdeudor join miembro on (codigomiembro = creditor) natural join usuario natural join grupo)
-
-                select costo , sum(monto) as transaccionTotal
-                from miembroXdeudorXcreditor
-                where nombredeudor = ? and nombrecreditor = ? and nombregrupo = ?group by costo""";
+                                miembroXdeudor (costo, codigodeuda, deudor, creditor, usuariodeudor, nombredeudor, monto) as (
+                                select costodeuda, codigodeuda, deudor, creditor, codigousuario as usuariodeudor, nombreusuario as nombredeudor, nvl(monto, 0) as monto
+                                from deuda join miembro on (codigomiembro = deudor) natural join usuario left outer join transaccion on (codigomiembro = envia)),
+                                
+                                miembroXdeudorXcreditor (costo, codigodeuda, deudor, creditor, usuariodeudor, nombredeudor, usuariocreditor, nombrecreditor, nombregrupo, codigogrupo, monto) as (
+                                select costo, codigodeuda, deudor, creditor, usuariodeudor, nombredeudor, codigousuario as usuariocreditor, nombreusuario as nombrecreditor, nombregrupo, codigogrupo, monto
+                                from miembroXdeudor join miembro on (codigomiembro = creditor) natural join usuario natural join grupo)
+                                
+                                select sum(costo) as costo, sum(monto) as transaccionTotal
+                                from miembroXdeudorXcreditor
+                                where nombredeudor = ? and nombrecreditor = ? and nombregrupo = ? group by deudor""";
 
         int deudas = 0;
 
@@ -191,18 +191,6 @@ public class JDBC {
         String insert = "insert into deuda values (?,?,?,?,?)";
         String Consulta2 = "select count(codigodeuda) as num from deuda";
         String Consulta3 = "select codigomiembro from miembro natural join usuario natural join grupo where nombreusuario = ? and nombregrupo = ?";
-        String UpdateEnvia = """
-                update miembro
-                set deudacolectiva = deudacolectiva - (
-                                    select costodeuda from deuda join miembro on (deudor = codigomiembro) natural join usuario
-                                    where nombreusuario = ? and codigodeuda = ?)
-                                    where codigomiembro in (select deudor from deuda where codigodeuda = ?)""";
-        String UpdateRecibe = """
-                update miembro
-                set deudacolectiva = deudacolectiva + (
-                                    select costodeuda from deuda join miembro on (creditor = codigomiembro) natural join usuario
-                                    where nombreusuario = ? and codigodeuda = ?)
-                                    where codigomiembro in (select creditor from deuda where codigodeuda = ?)""";
         Connection connex = null;
         try {
             connex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
@@ -211,8 +199,6 @@ public class JDBC {
             PreparedStatement deudor = connex.prepareStatement(Consulta3);
             PreparedStatement creditor = connex.prepareStatement(Consulta3);
             PreparedStatement ins = connex.prepareStatement(insert);
-            PreparedStatement update1 = connex.prepareStatement(UpdateEnvia);
-            PreparedStatement update2 = connex.prepareStatement(UpdateRecibe);
             ResultSet cd = codD.executeQuery();
             connex.setAutoCommit(false);
             ps.setString(1, bill.getName());
@@ -237,17 +223,6 @@ public class JDBC {
             ins.setInt(4, CodigoCreditor);
             ins.setInt(5, CodigoFactura);
             ins.executeUpdate();
-
-            update1.setString(1, debt.getOwing().getUsername());
-            update1.setInt(2, codigoDeuda);
-            update1.setInt(3, codigoDeuda);
-            update1.executeUpdate();
-
-            update2.setString(1, debt.getCreditor().getUsername());
-            update2.setInt(2, codigoDeuda);
-            update2.setInt(3, codigoDeuda);
-            update2.executeUpdate();
-
 
             connex.commit();
             connex.close();
